@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="suite1" verbose="2" >
+    <test name="Regression suite" >
+        <classes>
+            <class name="PagesSrc.SignupTest"/>
+
+        </classes>
+    </test>
+</suite>
