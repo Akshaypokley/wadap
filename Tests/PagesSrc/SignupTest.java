@@ -16,6 +16,7 @@ import pages.Signup;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by AKSHAY on 3/16/2017.
@@ -29,7 +30,7 @@ public class SignupTest {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
         driver = new ChromeDriver();
         driver.get("http://192.168.0.55:8006");
-
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     }
 
     @Test(dataProvider = "SignUp_Input")
@@ -38,6 +39,7 @@ public class SignupTest {
 
         try {
             Signup signup = new Signup(driver);
+
             signup.clicksignumlink();
             signup.setFirst_NM(First_Name);
             signup.setLastNM(LastName);
@@ -60,10 +62,10 @@ public class SignupTest {
     public Object[][] SignUp_Input() throws IOException
 
     {
-        FileInputStream fis = new FileInputStream("D:\\PROJECT\\wadap\\ExcelSheet\\Signup.xls");
+        FileInputStream fis = new FileInputStream("ExcelSheet/Signup.xls");
 
         HSSFWorkbook Workbook = new HSSFWorkbook(fis);
-        HSSFSheet WorkSheet = Workbook.getSheet("Signup");
+        HSSFSheet WorkSheet = Workbook.getSheet("d");
 
         int rowCount = WorkSheet.getPhysicalNumberOfRows();
         String[][] data = new String[rowCount - 1][5];
