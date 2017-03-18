@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,10 +19,12 @@ public class Signup {
     @FindBy(xpath = "//div[1]/h3")
     WebElement Lebel_Name;
 
-    @FindBy(xpath = "//li[2]/a")
+    @FindBy(linkText = "SIGNUP")
     public WebElement signumlink;
 
-    @FindBy(xpath=".//*[@id='Full_Nm']")
+
+
+    @FindBy(xpath="//*[@id='Full_Nm']")
     public WebElement First_NM;
 
     @FindBy(xpath = ".//*[@id='User_Nm']")
@@ -46,8 +49,9 @@ public class Signup {
     public WebElement RegistrationBtn;
 
     public Signup(WebDriver driver){
+        this.driver=driver;
     PageFactory.initElements(driver,this);
-    this.driver=driver;
+
     if(!Lebel_Name.isDisplayed())
         throw new IllegalStateException("This not signup page");
 
@@ -61,7 +65,9 @@ public class Signup {
 
     public void  clicksignumlink()
     {
-        signumlink.click();
+        //signumlink.click();
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", signumlink);
     }
 
     public void setFirst_NM(String FirstName)

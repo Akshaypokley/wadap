@@ -1,10 +1,18 @@
 package PagesSrc;
 
+import Utilites.initExtentReport;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,16 +26,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import static Utilites.TakeScreenshot.takeScreenshot;
+
 /**
  * Created by AKSHAY on 3/16/2017.
  */
 public class SignupTest {
 
     WebDriver driver;
-
-    @BeforeClass
+    ExtentReports extent ;
+    @BeforeMethod
     public void signup() {
-        System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+        extent = initExtentReport.init();
+        System.setProperty("webdriver.chrome.driver", "d/chromedriver.exe");
         driver = new ChromeDriver();
         driver.get("http://192.168.0.55:8006");
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -35,25 +46,59 @@ public class SignupTest {
 
     @Test(dataProvider = "SignUp_Input")
     public void Signupdata(String First_Name, String LastName, String ContactNo, String EmailId, String
-            Password, String Re_Password/*, String Expeted, String Xpath*/) {
+            Password, String Re_Password, String Expeted, String Xpath) throws IOException {
+
+        ExtentTest test = extent.startTest("Signup Test", "To Test Signup Button Fuctionality");
 
         try {
             Signup signup = new Signup(driver);
 
+            test.log(LogStatus.INFO, "Signup Driver initialised");
+
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             signup.clicksignumlink();
+            test.log(LogStatus.INFO, "Click On signup Link");
             signup.setFirst_NM(First_Name);
+            test.log(LogStatus.INFO, "Provide Full Name");
             signup.setLastNM(LastName);
+            test.log(LogStatus.INFO, "Provid user name");
             signup.setCont_No(ContactNo);
+            test.log(LogStatus.INFO, "Provide Contact No");
             signup.setEmaild(EmailId);
+            test.log(LogStatus.INFO, "Provide Email Id");
             signup.setPassword(Password);
+            test.log(LogStatus.INFO, "Provide Password");
             signup.setConfir_Password(Re_Password);
+            test.log(LogStatus.INFO, "Provide Re-Password");
             signup.CheckBox_terms();
+            test.log(LogStatus.INFO, "Accept Terms And Condition");
             signup.clcikRegistrationBtn();
+            test.log(LogStatus.INFO, "Click On Registration Button");
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            try
+            {
+                String Actual=driver.findElement(By.xpath(Xpath)).getText();
+
+                Assert.assertEquals(Actual,Expeted,"TestPass");
+
+                test.log(LogStatus.PASS, "Test Pass");
+            }catch(AssertionError e)
+            {
+               // System.out.println(e);
+                test.log(LogStatus.FAIL, e);
+                test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./Signup/"+takeScreenshot(driver)));
+            }
 
         } catch (Throwable e) {
-            System.out.println(e);
-        }
+           // System.out.println(e);
+            test.log(LogStatus.FAIL, e);
+            test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./Signup/"+takeScreenshot(driver)));
 
+        }
+        extent.endTest(test);
+        extent.flush();
+        driver.close();
 
     }
 
@@ -65,14 +110,14 @@ public class SignupTest {
         FileInputStream fis = new FileInputStream("ExcelSheet/Signup.xls");
 
         HSSFWorkbook Workbook = new HSSFWorkbook(fis);
-        HSSFSheet WorkSheet = Workbook.getSheet("d");
+        HSSFSheet WorkSheet = Workbook.getSheet("SignupInput");
 
         int rowCount = WorkSheet.getPhysicalNumberOfRows();
-        String[][] data = new String[rowCount - 1][5];
+        String[][] data = new String[rowCount - 1][8];
         for (int i = 1; i < rowCount; i++)
 
         {
-            HSSFRow row=WorkSheet.getRow(0);
+            HSSFRow row=WorkSheet.getRow(i);
             HSSFCell FirstNameCell=row.getCell(0);
             if(FirstNameCell==null)
             {
@@ -130,7 +175,6 @@ public class SignupTest {
                 RePasswordCell.setCellType(Cell.CELL_TYPE_STRING);
                 data[i-1][5]=RePasswordCell.getStringCellValue();
             }
-/*
             HSSFCell ExpaetedCell=row.getCell(6);
             if(ExpaetedCell==null)
             {
@@ -151,7 +195,7 @@ public class SignupTest {
                 {
                 XpathCEll.setCellType(Cell.CELL_TYPE_STRING);
                 data[i-1][7]=XpathCEll.getStringCellValue();
-            }*/
+            }
         }
 
 
