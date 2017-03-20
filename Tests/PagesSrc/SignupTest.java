@@ -8,6 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -74,31 +75,33 @@ public class SignupTest {
             test.log(LogStatus.INFO, "Accept Terms And Condition");
             signup.clcikRegistrationBtn();
             test.log(LogStatus.INFO, "Click On Registration Button");
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
+           /* Alert alert = driver.switchTo().alert();
+            alert.accept();*/
             try
             {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 String Actual=driver.findElement(By.xpath(Xpath)).getText();
 
                 Assert.assertEquals(Actual,Expeted,"TestPass");
-
                 test.log(LogStatus.PASS, "Test Pass");
+
+                test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
             }catch(AssertionError e)
             {
                // System.out.println(e);
                 test.log(LogStatus.FAIL, e);
-                test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./Signup/"+takeScreenshot(driver)));
+                test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
             }
 
         } catch (Throwable e) {
            // System.out.println(e);
             test.log(LogStatus.FAIL, e);
-            test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./Signup/"+takeScreenshot(driver)));
+            test.log(LogStatus.INFO, "Snapshot below: " + test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
 
         }
         extent.endTest(test);
         extent.flush();
-        driver.close();
+        //driver.close();
 
     }
 

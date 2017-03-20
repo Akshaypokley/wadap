@@ -10,7 +10,7 @@ public class initExtentReport{
         static ExtentReports extent;
         public static ExtentReports init()
         {
-            extent = new ExtentReports("D:\\PROJECT\\wadap\\Extent_Report\\Signup\\reports.html",false/*, NetworkMode.OFFLINE*/);
+            extent = new ExtentReports("D:\\PROJECT\\wadap\\Extent_Report\\reports.html",false/*, NetworkMode.OFFLINE*/);
 
             return extent;
         }

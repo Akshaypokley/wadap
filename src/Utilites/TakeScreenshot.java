@@ -22,8 +22,8 @@ public class TakeScreenshot {
 
             SimpleDateFormat sd = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
             String DateStr = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss").format(new Date());
-             imageName = "Login" + DateStr + ".png";
-            String imagePath = "Extent_Report/Signup/" + imageName;
+             imageName = "Signup" + DateStr + ".png";
+            String imagePath = "Extent_Report/screenshots/" + imageName;
             FileUtils.copyFile(scrFile, new File(imagePath));
         }catch(Throwable t)
             {
