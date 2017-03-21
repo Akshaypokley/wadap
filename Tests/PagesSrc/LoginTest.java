@@ -1,5 +1,8 @@
 package PagesSrc;
 
+import Utilites.initExtentReport;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -10,6 +13,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -30,9 +35,11 @@ import static Utilites.TakeScreenshot.takeScreenshot;
 public class LoginTest {
 
     WebDriver driver;
-
+ ExtentReports extent ;
     @BeforeMethod
     public void LoginTet() {
+        extent = initExtentReport.init();
+
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
         driver = new ChromeDriver();
         driver.get("http://192.168.0.55:8006/");
@@ -40,17 +47,32 @@ public class LoginTest {
     }
 
     @Test(dataProvider = "InputData")
-    public void UserInput(String UsNM, String PassWord, String Expected, String Xpath) {
-        try{
+    public void UserInput(String UsNM, String PassWord, String Expected, String Xpath) throws IOException {
 
-        Login login = new Login(driver);
+
+        ExtentTest Test= extent.startTest("LoginTest","To Test login button Functionality");
+        try{
+            Login login = new Login(driver);
+            Test.log(LogStatus.INFO, "Login Driver initialised");
 
         login.setUserName(UsNM);
+            Test.log(LogStatus.INFO, "Set User Name");
         login.setPassword(PassWord);
+            Test.log(LogStatus.INFO, "Set User Password");
         login.ClickLogin_Button();
-           /*
-            Alert alert = driver.switchTo().alert();
-            alert.accept();*/
+            Test.log(LogStatus.INFO, "Click on Login Button");
+
+
+           WebDriverWait wait = new WebDriverWait(driver, 15);
+            if(wait.until(ExpectedConditions.alertIsPresent())==null) {
+                System.out.println("alert was not present");
+            } else {
+
+                System.out.println("alert was present");
+                Alert alert = driver.switchTo().alert();
+                alert.accept();
+            }
+
             try
             {
                 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -58,22 +80,35 @@ public class LoginTest {
 
                 Assert.assertEquals(Actual,Expected,"TestPass");
 
+                Test.log(LogStatus.PASS, "Test Pass");
+                Test.log(LogStatus.INFO, "Snapshot below: " + Test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
 
 
             }catch(AssertionError e)
             {
                 System.out.println(e);
+                Test.log(LogStatus.PASS, "Test Failed");
+                Test.log(LogStatus.INFO, "Snapshot below: " + Test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
 
             }
 
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            Test.log(LogStatus.PASS, "Test Faild");
+            Test.log(LogStatus.INFO, "Snapshot below: " + Test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
+
         } catch (Throwable e) {
             System.out.println(e);
+            Test.log(LogStatus.PASS, "Test Faill");
+            Test.log(LogStatus.INFO, "Snapshot below: " + Test.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
 
         }
-
-        //driver.close();
+        extent.endTest(Test);
+        extent.flush();
+        driver.close();
 
     }
+
 
     @DataProvider
 
@@ -125,5 +160,81 @@ public class LoginTest {
         }
         return data;
     }
+
+
+    @Test(dataProvider ="ValidationTest")
+    public void validationTest(String Expected,String Xpath) throws IOException {
+        ExtentTest vaidtest=extent.startTest("Vaidation Test","To test the functionality uisng validaton");
+        try {
+            Login login = new Login(driver);
+            vaidtest.log(LogStatus.PASS, "Load login driver");
+            login.ClickLogin_Button();
+            vaidtest.log(LogStatus.PASS, "Click on Login  Button");
+
+            try {
+                String Actual=driver.findElement(By.xpath(Xpath)).getText();
+                Assert.assertEquals(Actual,Expected,"Test Pass");
+
+
+            } catch (Throwable e) {
+                System.out.println(e);
+                vaidtest.log(LogStatus.PASS, "Test fail");
+
+                vaidtest.log(LogStatus.INFO, "Snapshot below: " + vaidtest.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
+
+            }
+        }catch(AssertionError e)
+        {
+            System.out.println(e);
+            vaidtest.log(LogStatus.PASS, "Test fail");
+
+            vaidtest.log(LogStatus.INFO, "Snapshot below: " + vaidtest.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
+
+        }
+        driver.close();
+
+    }
+
+
+    @DataProvider
+    public Object[][] ValidationTest() throws IOException {
+        FileInputStream fis=new FileInputStream("ExcelSheet/Login.xls");
+
+        HSSFWorkbook workbook=new HSSFWorkbook(fis);
+        HSSFSheet sheet=workbook.getSheet("Validation");
+
+        int Rowcount= sheet.getPhysicalNumberOfRows();
+        String[][] data = new String[Rowcount - 1][2];
+        for(int j=1;j<Rowcount;j++)
+        {
+            HSSFRow row=sheet.getRow(j);
+            HSSFCell ExpetedCell=row.getCell(0);
+            if(ExpetedCell==null)
+            {
+                data[j-1][0]="";
+            }else
+            {
+                ExpetedCell.setCellType(Cell.CELL_TYPE_STRING);
+                data[j-1][0]=ExpetedCell.getStringCellValue();
+            }
+
+            HSSFCell XpathCell=row.getCell(1);
+            if(XpathCell==null)
+            {
+                data[j-1][1]="";
+            }else
+            {
+                XpathCell.setCellType(Cell.CELL_TYPE_STRING);
+                data[j-1][1]=XpathCell.getStringCellValue();
+            }
+        }
+
+
+        return data;
+    }
+
+
+
+
 
 }

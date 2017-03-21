@@ -22,7 +22,7 @@ public class TakeScreenshot {
 
             SimpleDateFormat sd = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
             String DateStr = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss").format(new Date());
-             imageName = "Signup" + DateStr + ".png";
+             imageName = "Login" + DateStr + ".png";
             String imagePath = "Extent_Report/screenshots/" + imageName;
             FileUtils.copyFile(scrFile, new File(imagePath));
         }catch(Throwable t)
