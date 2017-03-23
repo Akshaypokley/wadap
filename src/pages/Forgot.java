@@ -12,20 +12,20 @@ public class Forgot {
 
     WebDriver driver;
 
-    @FindBy(xpath = "")
+    @FindBy(xpath = "//div[1]/h3")
     WebElement Logo;
 
-    @FindBy(xpath = "")
+    @FindBy(xpath = ".//*[@id='formCommon']/a")
     WebElement forgotlink;
 
-    @FindBy(xpath ="" )
+    @FindBy(xpath =".//*[@id='Email']" )
     WebElement EmailBox;
 
-    @FindBy(xpath = "")
+    @FindBy(xpath = ".//*[@id='btnSubmit']")
     WebElement sendButtonl;
 
 
-Forgot (WebDriver driver)
+public Forgot(WebDriver driver)
 {
     this.driver=driver;
     PageFactory.initElements(driver,this);
@@ -33,5 +33,22 @@ Forgot (WebDriver driver)
         throw new IllegalStateException("This not Forgot page");
 }
 
+
+        public void clickForgotlink()
+    {
+        forgotlink.click();
+
+    }
+
+
+    public void setEmailBox(String UserMail)
+    {
+        EmailBox.sendKeys(UserMail);
+    }
+
+    public void ClickSendButtonl()
+    {
+        sendButtonl.click();
+    }
 
 }

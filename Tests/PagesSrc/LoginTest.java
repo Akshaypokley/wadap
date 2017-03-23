@@ -42,7 +42,7 @@ public class LoginTest {
 
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.get("http://192.168.0.55:8006/");
+        driver.get("http://192.168.0.57:8018/");
 
     }
 
@@ -191,6 +191,8 @@ public class LoginTest {
             vaidtest.log(LogStatus.INFO, "Snapshot below: " + vaidtest.addScreenCapture("./screenshots/"+takeScreenshot(driver)));
 
         }
+        extent.endTest(vaidtest);
+        extent.flush();
         driver.close();
 
     }
