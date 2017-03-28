@@ -41,7 +41,7 @@ public class SignupTest {
         extent = initExtentReport.init();
         System.setProperty("webdriver.chrome.driver", "d/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.get("http://192.168.0.55:8006");
+        driver.get("http://192.168.0.57:8018/");
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     }
 
@@ -101,7 +101,7 @@ public class SignupTest {
         }
         extent.endTest(test);
         extent.flush();
-        //driver.close();
+        driver.close();
 
     }
 
@@ -113,7 +113,7 @@ public class SignupTest {
         FileInputStream fis = new FileInputStream("ExcelSheet/Signup.xls");
 
         HSSFWorkbook Workbook = new HSSFWorkbook(fis);
-        HSSFSheet WorkSheet = Workbook.getSheet("SignupInput");
+        HSSFSheet WorkSheet = Workbook.getSheet("Signup");
 
         int rowCount = WorkSheet.getPhysicalNumberOfRows();
         String[][] data = new String[rowCount - 1][8];
