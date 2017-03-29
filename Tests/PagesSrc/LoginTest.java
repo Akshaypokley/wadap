@@ -1,6 +1,6 @@
 package PagesSrc;
 
-import Utilites.initExtentReport;
+import PagesSrc.Utilites.initExtentReport;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -16,18 +16,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.Login;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static Utilites.TakeScreenshot.takeScreenshot;
+import static PagesSrc.Utilites.TakeScreenshot.takeScreenshot;
 
 /**
  * Created by AKSHAY on 3/20/2017.
@@ -105,7 +103,7 @@ public class LoginTest {
         }
         extent.endTest(Test);
         extent.flush();
-        driver.close();
+       // driver.close();
 
     }
 
@@ -161,6 +159,7 @@ public class LoginTest {
         return data;
     }
 
+/*
 
     @Test(dataProvider ="ValidationTest")
     public void validationTest(String Expected,String Xpath) throws IOException {
@@ -236,6 +235,7 @@ public class LoginTest {
     }
 
 
+*/
 
 
 

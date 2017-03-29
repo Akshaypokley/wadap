@@ -13,7 +13,7 @@ public class Bussiness_Profile {
 
     WebDriver driver;
 
-    @FindBy(xpath = "")
+    @FindBy(xpath = "//h1")
     WebElement Logo;
 
 
@@ -42,12 +42,12 @@ public class Bussiness_Profile {
     WebElement Save;
 
 
-    Bussiness_Profile(WebDriver driver)
+    public Bussiness_Profile(WebDriver driver)
     {
-        this.driver=driver;
+        /*this.driver=driver;
         PageFactory.initElements(driver,this);
       if(!Logo.isDisplayed())
-          throw new IllegalStateException("This is not bussiness Profile page");
+          throw new IllegalStateException("This is not bussiness Profile page");*/
     }
 
     public void ClickBusinessProfile()

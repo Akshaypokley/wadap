@@ -1,6 +1,6 @@
 package PagesSrc;
 
-import Utilites.initExtentReport;
+import PagesSrc.Utilites.initExtentReport;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -8,13 +8,9 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebDriver;
@@ -23,11 +19,10 @@ import org.testng.annotations.BeforeMethod;
 import pages.Signup;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static Utilites.TakeScreenshot.takeScreenshot;
+import static PagesSrc.Utilites.TakeScreenshot.takeScreenshot;
 
 /**
  * Created by AKSHAY on 3/16/2017.

@@ -1,6 +1,6 @@
 package PagesSrc;
 
-import Utilites.initExtentReport;
+import PagesSrc.Utilites.initExtentReport;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -13,18 +13,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.Forgot;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static Utilites.TakeScreenshot.takeScreenshot;
+import static PagesSrc.Utilites.TakeScreenshot.takeScreenshot;
 
 /**
  * Created by AKSHAY on 3/23/2017.

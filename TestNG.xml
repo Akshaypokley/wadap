@@ -2,7 +2,8 @@
 <suite name="suite1" verbose="2" >
     <test name="Regression suite" >
         <classes>
-            <class name="PagesSrc.SignupTest"/>
+            <class name="PagesSrc.LoginTest"/>
+            <class name ="PagesSrc.Profile.BussinessProfile"/>
 
         </classes>
     </test>
