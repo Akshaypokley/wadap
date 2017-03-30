@@ -4,7 +4,10 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -22,6 +25,18 @@ public class LoginFunction {
 
     public boolean isAlreadyLogIn = false;
     WebDriver driver;
+
+    @FindBy(xpath = "//div[1]/h3")
+    WebElement Logo;
+
+    public LoginFunction(WebDriver driver)
+    {
+        this.driver=driver;
+        PageFactory.initElements(driver,this);
+        if(!Logo.isDisplayed())
+            throw new IllegalStateException("This not Forgot page");
+    }
+
 
     /*@BeforeClass
     public void loadDriver()

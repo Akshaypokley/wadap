@@ -17,7 +17,7 @@ public class BussinessProfile
 
 {
     WebDriver driver;
-    @BeforeClass
+    @BeforeTest
     public void loadDriver()
     {
         System.setProperty("webdriver.chrome.driver","d/chromedriver.exe");
